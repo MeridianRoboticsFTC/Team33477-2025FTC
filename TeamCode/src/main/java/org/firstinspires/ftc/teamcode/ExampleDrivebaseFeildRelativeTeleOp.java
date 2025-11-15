@@ -111,7 +111,7 @@ public class ExampleDrivebaseFeildRelativeTeleOp extends LinearOpMode {
             double robotRelativeX = Math.cos(robotRelativeAngle);
             double robotRelativeY = Math.sin(robotRelativeAngle);
 
-            double gpMagnitude = Math.abs(gamepad1.left_stick_x) + Math.abs(gamepad1.left_stick_y);
+            double gpMagnitude = Math.sqrt( gamepad1.left_stick_y * gamepad1.left_stick_y + gamepad1.left_stick_x * gamepad1.left_stick_x);
             // POV Mode uses left joystick to go forward & strafe, and right joystick to rotate.
             double axial = robotRelativeY * gpMagnitude;  // Note: pushing stick forward gives negative value
             double lateral = robotRelativeX * gpMagnitude;
