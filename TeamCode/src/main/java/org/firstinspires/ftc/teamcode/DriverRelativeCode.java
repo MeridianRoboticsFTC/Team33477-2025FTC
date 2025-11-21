@@ -98,7 +98,7 @@ public class DriverRelativeCode extends LinearOpMode {
         backLeftDrive.setDirection(DcMotor.Direction.REVERSE);
         frontRightDrive.setDirection(DcMotor.Direction.FORWARD);
         backRightDrive.setDirection(DcMotor.Direction.FORWARD);
-        rightIntake.setDirection(Servo.Direction.FORWARD);
+        rightIntake.setDirection(Servo.Direction.REVERSE);
         leftIntake.setDirection(Servo.Direction.REVERSE);
         flyWheel.setDirection(DcMotor.Direction.REVERSE);
 
