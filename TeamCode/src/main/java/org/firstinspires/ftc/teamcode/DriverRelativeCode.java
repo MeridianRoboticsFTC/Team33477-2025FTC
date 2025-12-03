@@ -98,8 +98,8 @@ public class DriverRelativeCode extends LinearOpMode {
         backLeftDrive.setDirection(DcMotor.Direction.REVERSE);
         frontRightDrive.setDirection(DcMotor.Direction.FORWARD);
         backRightDrive.setDirection(DcMotor.Direction.FORWARD);
-        rightIntake.setDirection(Servo.Direction.FORWARD);
-        leftIntake.setDirection(Servo.Direction.REVERSE);
+        rightIntake.setDirection(Servo.Direction.REVERSE);
+        leftIntake.setDirection(Servo.Direction.FORWARD);
         flyWheel.setDirection(DcMotor.Direction.REVERSE);
 
         // Wait for the game to start (driver presses START)
@@ -175,18 +175,27 @@ public class DriverRelativeCode extends LinearOpMode {
             backLeftDrive.setPower(backLeftPower);
             backRightDrive.setPower(backRightPower);
 
-            if(gamepad1.right_bumper) {
-                rightIntake.setPosition(0.5);
-                leftIntake.setPosition(0.5);
+            if(gamepad1.right_trigger > 0.3) {
+                rightIntake.setPosition(0.75);
+                leftIntake.setPosition(0.75);
             } else {
                 rightIntake.setPosition(0.0);
                 leftIntake.setPosition(0.0);
+            }
+
+            if(gamepad1.rightBumperWasPressed()){
+                flyWheel.setPower(flyWheel.getPower() + 0.1);
+            }
+
+            if(gamepad1.leftBumperWasPressed()){
+                flyWheel.setPower(flyWheel.getPower() - 0.1);
             }
 
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Front left/Right", "%4.2f, %4.2f", frontLeftPower, frontRightPower);
             telemetry.addData("Back  left/Right", "%4.2f, %4.2f", backLeftPower, backRightPower);
+            telemetry.addData("fly wheel power", flyWheel.getPower());
             telemetry.update();
         }
     }
