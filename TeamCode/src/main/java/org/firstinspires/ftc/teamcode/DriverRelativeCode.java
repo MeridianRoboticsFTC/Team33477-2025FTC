@@ -58,18 +58,18 @@ public class DriverRelativeCode extends LinearOpMode {
 
     private IMU imu  = null;
 
-   
+
     public void runOpMode() {
 
         imu = hardwareMap.get(IMU.class, "imu");
         imu.initialize(
-              new IMU.Parameters(
-                      new RevHubOrientationOnRobot(
-                              RevHubOrientationOnRobot.LogoFacingDirection.LEFT,
-                              RevHubOrientationOnRobot.UsbFacingDirection.FORWARD
-                      )
+                new IMU.Parameters(
+                        new RevHubOrientationOnRobot(
+                                RevHubOrientationOnRobot.LogoFacingDirection.LEFT,
+                                RevHubOrientationOnRobot.UsbFacingDirection.FORWARD
+                        )
 
-              )
+                )
 
         );
 
@@ -108,7 +108,7 @@ public class DriverRelativeCode extends LinearOpMode {
 
         waitForStart();
         runtime.reset();
-        flyWheel.setPower(0.3);
+        flyWheel.setPower(0.8);
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
@@ -181,14 +181,6 @@ public class DriverRelativeCode extends LinearOpMode {
             } else {
                 rightIntake.setPosition(0.0);
                 leftIntake.setPosition(0.0);
-            }
-
-            if(gamepad1.rightBumperWasPressed()){
-                flyWheel.setPower(flyWheel.getPower() + 0.1);
-            }
-
-            if(gamepad1.leftBumperWasPressed()){
-                flyWheel.setPower(flyWheel.getPower() - 0.1);
             }
 
             // Show the elapsed game time and wheel power.
