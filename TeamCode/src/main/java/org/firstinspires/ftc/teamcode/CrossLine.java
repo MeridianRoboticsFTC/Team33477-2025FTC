@@ -29,8 +29,6 @@
 
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -54,9 +52,9 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@Autonomous(name="CrossLineAuto", group="Robot")
+@com.qualcomm.robotcore.eventloop.opmode.Autonomous(name="CrossLineAuto", group="Robot")
 //@Disabled
-public class FirstAuto extends LinearOpMode {
+public class CrossLine extends LinearOpMode {
 
     /* Declare OpMode members. */
     private DcMotor         leftDrive   = null;
@@ -70,6 +68,11 @@ public class FirstAuto extends LinearOpMode {
 
    // @Override
     public void runOpMode() {
+
+
+        leftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
 
         // Initialize the drive system variables.
         leftDrive  = hardwareMap.get(DcMotor.class, "back_left_drive");
