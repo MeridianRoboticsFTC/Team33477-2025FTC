@@ -1,10 +1,13 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.IMU;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 /*
  * This file contains an example of a Linear "OpMode".
@@ -34,19 +37,40 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Basic: Omni Linear OpMode", group="Linear OpMode")
-@Disabled
-public class TestDriveTeleOp extends LinearOpMode {
+@com.qualcomm.robotcore.eventloop.opmode.TeleOp
 
+public class TeleOp extends LinearOpMode {
     // Declare OpMode members for each of the 4 motors.
+
     private ElapsedTime runtime = new ElapsedTime();
     private DcMotor frontLeftDrive = null;
     private DcMotor backLeftDrive = null;
     private DcMotor frontRightDrive = null;
     private DcMotor backRightDrive = null;
+    private DcMotor flyWheel = null;
 
-    @Override
+    private Servo rightIntake = null;
+
+    private Servo leftIntake = null;
+
+    private IMU imu  = null;
+
+   
     public void runOpMode() {
+
+        imu = hardwareMap.get(IMU.class, "imu");
+        imu.initialize(
+              new IMU.Parameters(
+                      new RevHubOrientationOnRobot(
+                              RevHubOrientationOnRobot.LogoFacingDirection.LEFT,
+                              RevHubOrientationOnRobot.UsbFacingDirection.FORWARD
+                      )
+
+              )
+
+        );
+
+        imu.resetYaw();
 
         // Initialize the hardware variables. Note that the strings used here must correspond
         // to the names assigned during the robot configuration step on the DS or RC devices.
@@ -54,7 +78,9 @@ public class TestDriveTeleOp extends LinearOpMode {
         backLeftDrive = hardwareMap.get(DcMotor.class, "back_left_drive");
         frontRightDrive = hardwareMap.get(DcMotor.class, "front_right_drive");
         backRightDrive = hardwareMap.get(DcMotor.class, "back_right_drive");
-
+        flyWheel = hardwareMap.get(DcMotor.class, "flywheel");
+        leftIntake = hardwareMap.get(Servo.class, "left_intake");
+        rightIntake = hardwareMap.get(Servo.class, "right_intake");
         // ########################################################################################
         // !!!            IMPORTANT Drive Information. Test your motor directions.            !!!!!
         // ########################################################################################
@@ -65,10 +91,19 @@ public class TestDriveTeleOp extends LinearOpMode {
         // when you first test your robot, push the left joystick forward and observe the direction the wheels turn.
         // Reverse the direction (flip FORWARD <-> REVERSE ) of any wheel that runs backward
         // Keep testing until ALL the wheels move the robot forward when you push the left joystick forward.
+        frontLeftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        frontRightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        backLeftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        backRightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        flyWheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
         frontLeftDrive.setDirection(DcMotor.Direction.REVERSE);
         backLeftDrive.setDirection(DcMotor.Direction.REVERSE);
         frontRightDrive.setDirection(DcMotor.Direction.FORWARD);
         backRightDrive.setDirection(DcMotor.Direction.FORWARD);
+        rightIntake.setDirection(Servo.Direction.REVERSE);
+        leftIntake.setDirection(Servo.Direction.FORWARD);
+        flyWheel.setDirection(DcMotor.Direction.REVERSE);
 
         // Wait for the game to start (driver presses START)
         telemetry.addData("Status", "Initialized");
@@ -76,14 +111,28 @@ public class TestDriveTeleOp extends LinearOpMode {
 
         waitForStart();
         runtime.reset();
+        flyWheel.setPower(0.8);
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
             double max;
 
+            if(gamepad1.triangle && gamepad1.circle) {
+                imu.resetYaw();
+            }
+
+            double gpAngle = Math.atan2(-gamepad1.left_stick_y, gamepad1.left_stick_x);
+            double RobotAngle = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+
+            double robotRelativeAngle = gpAngle - RobotAngle;
+
+            double robotRelativeX = Math.cos(robotRelativeAngle);
+            double robotRelativeY = Math.sin(robotRelativeAngle);
+
+            double gpMagnitude = Math.sqrt(gamepad1.left_stick_y * gamepad1.left_stick_y + gamepad1.left_stick_x * gamepad1.left_stick_x);
             // POV Mode uses left joystick to go forward & strafe, and right joystick to rotate.
-            double axial   = -gamepad1.left_stick_y;  // Note: pushing stick forward gives negative value
-            double lateral =  gamepad1.left_stick_x;
+            double axial   = robotRelativeY * gpMagnitude;  // Note: pushing stick forward gives negative value
+            double lateral = robotRelativeX * gpMagnitude;
             double yaw     =  gamepad1.right_stick_x;
 
             // Combine the joystick requests for each axis-motion to determine each wheel's power.
@@ -129,10 +178,20 @@ public class TestDriveTeleOp extends LinearOpMode {
             backLeftDrive.setPower(backLeftPower);
             backRightDrive.setPower(backRightPower);
 
+            if(gamepad1.right_trigger > 0.3) {
+                rightIntake.setPosition(0.75);
+                leftIntake.setPosition(0.75);
+            } else {
+                rightIntake.setPosition(0.0);
+                leftIntake.setPosition(0.0);
+            }
+
+
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Front left/Right", "%4.2f, %4.2f", frontLeftPower, frontRightPower);
             telemetry.addData("Back  left/Right", "%4.2f, %4.2f", backLeftPower, backRightPower);
+            telemetry.addData("fly wheel power", flyWheel.getPower());
             telemetry.update();
         }
     }
