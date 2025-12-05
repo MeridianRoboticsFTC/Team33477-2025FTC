@@ -109,10 +109,10 @@ public class ShootingAuto {/* Copyright (c) 2017 FIRST. All rights reserved.
             // Step through each leg of the path, ensuring that the OpMode has not been stopped along the way.
 
             // Step 1:  Drive forward for 3 seconds
-                leftDrive.setPower(FORWARD_SPEED);
-                rightDrive.setPower(FORWARD_SPEED);
-                runtime.reset();
-                while (opModeIsActive() && (runtime.seconds() < 0.6)) {
+            leftDrive.setPower(FORWARD_SPEED);
+            rightDrive.setPower(FORWARD_SPEED);
+            runtime.reset();
+            while (opModeIsActive() && (runtime.seconds() < 0.6)) {
                     telemetry.addData("Path", "Leg 1: %4.1f S Elapsed", runtime.seconds());
                     telemetry.update();
             }
@@ -138,7 +138,8 @@ public class ShootingAuto {/* Copyright (c) 2017 FIRST. All rights reserved.
                 telemetry.addData("Path", "Leg 1: %4.1f S Elapsed", runtime.seconds());
                 telemetry.update();
             }
-
+            leftDrive.setPower(0);
+            rightDrive.setPower(0);
             // Step 2:  Spin right for 1.3 seconds
 //        leftDrive.setPower(TURN_SPEED);
 //        rightDrive.setPower(-TURN_SPEED);
