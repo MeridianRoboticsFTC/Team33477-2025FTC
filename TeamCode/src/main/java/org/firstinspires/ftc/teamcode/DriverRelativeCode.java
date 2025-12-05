@@ -187,7 +187,7 @@ public class DriverRelativeCode extends LinearOpMode {
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Front left/Right", "%4.2f, %4.2f", frontLeftPower, frontRightPower);
             telemetry.addData("Back  left/Right", "%4.2f, %4.2f", backLeftPower, backRightPower);
-            telemetry.addData("fly wheel power", flyWheel.getPower());
+            telemetry.addData("fly wheel power", flyWheel.getCurrentPosition());
             telemetry.update();
         }
     }
