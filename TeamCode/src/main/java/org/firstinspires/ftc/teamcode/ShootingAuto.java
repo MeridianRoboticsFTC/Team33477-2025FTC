@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-public class ShootingAuto {/* Copyright (c) 2017 FIRST. All rights reserved.
+/* Copyright (c) 2017 FIRST. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification,
  * are permitted (subject to the limitations in the disclaimer below) provided that
@@ -57,7 +57,7 @@ public class ShootingAuto {/* Copyright (c) 2017 FIRST. All rights reserved.
 
     @Autonomous(name = "Shooting Auto", group = "Robot")
 
-    public class LineAuto extends LinearOpMode {
+public class ShootingAuto extends LinearOpMode {
 
         /* Declare OpMode members. */
         private DcMotor leftDrive = null;
@@ -72,7 +72,7 @@ public class ShootingAuto {/* Copyright (c) 2017 FIRST. All rights reserved.
         private ElapsedTime runtime = new ElapsedTime();
 
 
-        static final double FORWARD_SPEED = 0.6;
+        static final double BACKWARDS_SPEED = -0.6;
         static final double TURN_SPEED = 0.5;
 
        
@@ -109,8 +109,8 @@ public class ShootingAuto {/* Copyright (c) 2017 FIRST. All rights reserved.
             // Step through each leg of the path, ensuring that the OpMode has not been stopped along the way.
 
             // Step 1:  Drive forward for 3 seconds
-            leftDrive.setPower(FORWARD_SPEED);
-            rightDrive.setPower(FORWARD_SPEED);
+            leftDrive.setPower(BACKWARDS_SPEED);
+            rightDrive.setPower(BACKWARDS_SPEED);
             runtime.reset();
             while (opModeIsActive() && (runtime.seconds() < 0.6)) {
                     telemetry.addData("Path", "Leg 1: %4.1f S Elapsed", runtime.seconds());
@@ -131,8 +131,8 @@ public class ShootingAuto {/* Copyright (c) 2017 FIRST. All rights reserved.
             sleep(500);
             rightIntake.setPosition(0.0);
             leftIntake.setPosition(0.0);
-            leftDrive.setPower(FORWARD_SPEED);
-            rightDrive.setPower(FORWARD_SPEED);
+            leftDrive.setPower(BACKWARDS_SPEED);
+            rightDrive.setPower(BACKWARDS_SPEED);
             runtime.reset();
             while (opModeIsActive() && (runtime.seconds() < 1.0)) {
                 telemetry.addData("Path", "Leg 1: %4.1f S Elapsed", runtime.seconds());
@@ -164,6 +164,5 @@ public class ShootingAuto {/* Copyright (c) 2017 FIRST. All rights reserved.
             telemetry.update();
             sleep(1000);
         }
-    }
 }
 
