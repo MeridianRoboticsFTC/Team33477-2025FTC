@@ -118,7 +118,7 @@ public class ShootingAuto extends LinearOpMode {
             }
             leftDrive.setPower(0);
             rightDrive.setPower(0);
-            sleep(3000);
+            sleep(5000);
 
             rightIntake.setPosition(0.75);
             leftIntake.setPosition(0.75);
