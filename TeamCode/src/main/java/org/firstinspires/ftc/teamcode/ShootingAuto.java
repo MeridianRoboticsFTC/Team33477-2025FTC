@@ -104,7 +104,7 @@ public class ShootingAuto extends LinearOpMode {
             // Wait for the game to start (driver presses START)
             waitForStart();
 
-            flyWheel.setPower(0.45);
+            flyWheel.setPower(0.25);
 
             // Step through each leg of the path, ensuring that the OpMode has not been stopped along the way.
 
