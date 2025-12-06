@@ -99,6 +99,8 @@ public class ShootingAuto extends LinearOpMode {
 
         bleftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         brightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        fleftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        frightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
         // When run, this OpMode should start both motors driving forward. So adjust these two lines based on your first test drive.
