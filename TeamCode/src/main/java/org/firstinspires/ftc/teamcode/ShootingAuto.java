@@ -161,6 +161,7 @@ public class ShootingAuto extends LinearOpMode {
             // Step 4:  Stop
 
             telemetry.addData("Path", "Complete");
+            telemetry.addData("flyWheel", "0.25");
             telemetry.update();
             sleep(1000);
         }
