@@ -189,6 +189,13 @@ public class DriverRelativeCode extends LinearOpMode {
                 leftIntake.setPosition(0.0);
             }
 
+            if(gamepad1.rightBumperWasPressed()){
+                flyWheel.setPower(0.8);
+            }
+            if(gamepad1.leftBumperWasPressed()){
+                flyWheel.setPower(0.5);
+            }
+
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Front left/Right", "%4.2f, %4.2f", frontLeftPower, frontRightPower);

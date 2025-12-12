@@ -123,37 +123,48 @@ public class ShootingAuto extends LinearOpMode {
         // Wait for the game to start (driver presses START)
         waitForStart();
 
-        flyWheel.setPower(0.8);
+        flyWheel.setPower(0.5);
 
         // Step through each leg of the path, ensuring that the OpMode has not been stopped along the way.
 
         // Step 1:  Drive forward for 3 seconds
+        setDBPowers(0);
+        sleep(5000);
+        rightIntake.setPosition(0.75);
+        leftIntake.setPosition(0.75);
+        sleep(500);
+        rightIntake.setPosition(0.0);
+        leftIntake.setPosition(0.0);
+        sleep(5000);
+        rightIntake.setPosition(0.75);
+        leftIntake.setPosition(0.75);
+        sleep(500);
+        rightIntake.setPosition(0.0);
+        leftIntake.setPosition(0.0);
         setDBPowers(FORWARD_SPEED);
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < 1.5)) {
             telemetry.addData("Path", "Leg 1: %4.1f S Elapsed", runtime.seconds());
             telemetry.update();
         }
-        setDBPowers(0);
-        sleep(3000);
-        rightIntake.setPosition(0.75);
-        leftIntake.setPosition(0.75);
-        sleep(500);
-        rightIntake.setPosition(0.0);
-        leftIntake.setPosition(0.0);
-        sleep(3000);
-        rightIntake.setPosition(0.75);
-        leftIntake.setPosition(0.75);
-        sleep(500);
-        rightIntake.setPosition(0.0);
-        leftIntake.setPosition(0.0);
-        setDBPowers(FORWARD_SPEED);
+
+        fleftDrive.setPower(-1);
+        bleftDrive.setPower(-1);
+        frightDrive.setPower(1);
+        brightDrive.setPower(1);
         runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 1.5)) {
+        while (opModeIsActive() && (runtime.seconds() < 0.75)) {
             telemetry.addData("Path", "Leg 2: %4.1f S Elapsed", runtime.seconds());
             telemetry.update();
         }
         setDBPowers(0);
+
+        setDBPowers(FORWARD_SPEED);
+        runtime.reset();
+        while (opModeIsActive() && (runtime.seconds() < 1.5)) {
+            telemetry.addData("Path", "Leg 1: %4.1f S Elapsed", runtime.seconds());
+            telemetry.update();
+        }
 
         // Step 2:  Spin right for 1.3 seconds
 //        leftDrive.setPower(TURN_SPEED);
