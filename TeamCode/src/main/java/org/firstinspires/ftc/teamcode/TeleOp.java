@@ -111,7 +111,7 @@ public class TeleOp extends LinearOpMode {
 
         waitForStart();
         runtime.reset();
-        flyWheel.setPower(0.5);
+        flyWheel.setPower(0.63);
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
@@ -185,8 +185,13 @@ public class TeleOp extends LinearOpMode {
                 rightIntake.setPosition(0.0);
                 leftIntake.setPosition(0.0);
             }
-
-            // Show the elapsed game time and wheel power.
+            if(gamepad1.left_trigger > 0.3) {
+                flyWheel.setPower(0.8);
+            }
+            if ((gamepad1.left_bumper)) {
+                    flyWheel.setPower(0.63);
+            }
+                // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Front left/Right", "%4.2f, %4.2f", frontLeftPower, frontRightPower);
             telemetry.addData("Back  left/Right", "%4.2f, %4.2f", backLeftPower, backRightPower);

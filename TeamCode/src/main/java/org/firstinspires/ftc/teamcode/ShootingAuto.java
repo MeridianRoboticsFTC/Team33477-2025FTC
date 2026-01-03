@@ -72,7 +72,7 @@ public class ShootingAuto extends LinearOpMode {
         private ElapsedTime runtime = new ElapsedTime();
 
 
-        static final double BACKWARDS_SPEED = -0.6;
+        static final double BACKWARDS_SPEED = -1.0;
         static final double TURN_SPEED = 0.5;
 
        
@@ -104,7 +104,7 @@ public class ShootingAuto extends LinearOpMode {
             // Wait for the game to start (driver presses START)
             waitForStart();
 
-            flyWheel.setPower(0.8);
+            flyWheel.setPower(0.7);
 
             // Step through each leg of the path, ensuring that the OpMode has not been stopped along the way.
 
@@ -118,14 +118,14 @@ public class ShootingAuto extends LinearOpMode {
             }
             leftDrive.setPower(0);
             rightDrive.setPower(0);
-            sleep(3000);
+            sleep(4000);
 
             rightIntake.setPosition(0.75);
             leftIntake.setPosition(0.75);
             sleep(500);
             rightIntake.setPosition(0.0);
             leftIntake.setPosition(0.0);
-            sleep(3000);
+            sleep(4000);
             rightIntake.setPosition(0.75);
             leftIntake.setPosition(0.75);
             sleep(500);
