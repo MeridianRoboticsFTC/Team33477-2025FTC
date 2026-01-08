@@ -55,9 +55,9 @@ import com.qualcomm.robotcore.util.ElapsedTime;
      * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
      */
 
-    @Autonomous(name = "Shooting Auto", group = "Robot")
+    @Autonomous(name = "Blue Close Shooting Auto", group = "Robot")
 
-public class ShootingAuto extends LinearOpMode {
+public class BlueCloseShootingAuto extends LinearOpMode {
 
         /* Declare OpMode members. */
         private DcMotor leftDrive = null;
@@ -72,8 +72,12 @@ public class ShootingAuto extends LinearOpMode {
         private ElapsedTime runtime = new ElapsedTime();
 
 
-        static final double BACKWARDS_SPEED = -1.0;
+        static final double BACKWARDS_SPEED = -0.9;
         static final double TURN_SPEED = 0.5;
+
+        static final double FORWARD_SPEED = 0.6;
+
+
 
        
         public void runOpMode() {
@@ -104,7 +108,7 @@ public class ShootingAuto extends LinearOpMode {
             // Wait for the game to start (driver presses START)
             waitForStart();
 
-            flyWheel.setPower(0.7);
+            flyWheel.setPower(0.73);
 
             // Step through each leg of the path, ensuring that the OpMode has not been stopped along the way.
 
@@ -131,8 +135,16 @@ public class ShootingAuto extends LinearOpMode {
             sleep(500);
             rightIntake.setPosition(0.0);
             leftIntake.setPosition(0.0);
+
             leftDrive.setPower(BACKWARDS_SPEED);
             rightDrive.setPower(BACKWARDS_SPEED);
+            sleep(200);
+            leftDrive.setPower(-TURN_SPEED);
+            rightDrive.setPower(TURN_SPEED);
+            sleep(200);
+            leftDrive.setPower(FORWARD_SPEED);
+            rightDrive.setPower(FORWARD_SPEED);
+
             runtime.reset();
             while (opModeIsActive() && (runtime.seconds() < 1.0)) {
                 telemetry.addData("Path", "Leg 1: %4.1f S Elapsed", runtime.seconds());
