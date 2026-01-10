@@ -55,7 +55,8 @@ public class TeleOp extends LinearOpMode {
 
     private IMU imu  = null;
 
-   
+   private double flywheelPower = 0;
+
     public void runOpMode() {
 
         imu = hardwareMap.get(IMU.class, "imu");
@@ -111,7 +112,8 @@ public class TeleOp extends LinearOpMode {
 
         waitForStart();
         runtime.reset();
-        flyWheel.setPower(0.8);
+        flywheelPower = 0.7;
+        flyWheel.setPower(flywheelPower);
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
@@ -186,12 +188,13 @@ public class TeleOp extends LinearOpMode {
                 leftIntake.setPosition(0.0);
             }
 
-            if (gamepad1.left_bumper) {
-                flyWheel.setPower(0.6);
+            if (gamepad1.dpad_up) {
+                 flywheelPower = flywheelPower + 0.1;
             }
-            if (gamepad1.left_trigger > 0.1) {
-                flyWheel.setPower(0.9);
+            if (gamepad1.dpad_down) {
+            flywheelPower = flywheelPower - 0.1;
             }
+            flyWheel.setPower(flywheelPower);
 
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
