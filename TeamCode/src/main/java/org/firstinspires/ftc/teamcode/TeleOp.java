@@ -190,7 +190,7 @@ public class TeleOp extends LinearOpMode {
                 flyWheel.setPower(0.6);
             }
             if (gamepad1.left_trigger > 0.1) {
-                flyWheel.setPower(0.85);
+                flyWheel.setPower(0.9);
             }
 
             // Show the elapsed game time and wheel power.
